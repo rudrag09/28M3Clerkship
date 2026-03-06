@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clerkship Overlap</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div>
+        <h1>Clerkship Overlap</h1>
+        <p class="muted">Paste your clerkship email, review it, and see who overlaps with each block.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="authStatus" class="pill">Signed out</span>
+        <button id="signInBtn" class="primary">Sign in</button>
+        <button id="signOutBtn" class="ghost hidden">Sign out</button>
+      </div>
+    </header>
+
+    <section id="configBanner" class="card warning hidden"></section>
+
+    <section id="authCard" class="card">
+      <h2>School email sign-in</h2>
+      <p>Use your school email address. Only approved domains can sign in.</p>
+      <div class="inline-form">
+        <input id="emailInput" type="email" placeholder="you@school.edu" />
+        <button id="sendMagicLinkBtn" class="primary">Email me a sign-in link</button>
+      </div>
+      <p class="muted small">Default allowed domain is <code>wright.edu</code>. You can change it in <code>src/config.js</code>.</p>
+    </section>
+
+    <main id="app" class="hidden">
+      <div class="grid two-col">
+        <section class="card">
+          <h2>1. Paste schedule</h2>
+          <p class="muted">The parser ignores the trailing Assigned date. You can edit everything before saving.</p>
+          <textarea id="scheduleInput" rows="11" placeholder="Paste clerkship lines here..."></textarea>
+          <div class="button-row">
+            <button id="parseBtn" class="primary">Parse schedule</button>
+            <button id="loadSampleBtn" class="ghost">Load sample</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>2. Your profile</h2>
+          <div class="form-grid">
+            <label>
+              Display name
+              <input id="displayNameInput" type="text" placeholder="Your name" />
+            </label>
+            <label>
+              Graduation year
+              <input id="gradYearInput" type="number" placeholder="2027" />
+            </label>
+          </div>
+          <div class="button-row">
+            <button id="saveProfileBtn" class="primary">Save profile</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>3. Review and edit schedule</h2>
+            <p class="muted">You can edit block labels, dates, clerkship names, and site locations at any time.</p>
+          </div>
+          <div class="button-row">
+            <button id="addRowBtn" class="ghost">Add row</button>
+            <button id="saveScheduleBtn" class="primary">Save schedule</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Block</th>
+                <th>Rotation</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Site</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="reviewTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="grid two-col">
+        <section class="card">
+          <h2>Your saved schedule</h2>
+          <div id="mySchedule"></div>
+        </section>
+
+        <section class="card">
+          <h2>Your overlaps</h2>
+          <p class="muted">This shows overlaps with your classmates. There is no classmate search page.</p>
+          <div id="overlapSummary"></div>
+        </section>
+      </div>
+
+      <section class="card">
+        <h2>Class block view</h2>
+        <p class="muted">Browse by block to see who overlaps in that block.</p>
+        <div id="classBlockView"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
